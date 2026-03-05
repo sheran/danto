@@ -1,0 +1,84 @@
+<!-- Search Overlay -->
+<div id="search-overlay" class="search-overlay fixed inset-0 z-[-1] opacity-0 pointer-events-none transition-opacity duration-200" role="search">
+  <!-- Backdrop -->
+  <div class="search-backdrop absolute inset-0" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);"></div>
+
+  <!-- Search Box -->
+  <div class="relative z-10 flex items-start justify-center pt-[20vh] px-4">
+    <div class="w-full max-w-lg bg-theme rounded-radius-small shadow-lg overflow-hidden">
+      <!-- Input Group -->
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-theme-alt" aria-hidden="true"></i>
+        <input type="text" id="search-input" placeholder="Search..." aria-label="Search" class="w-full py-4 pl-12 pr-12 text-base bg-theme text-theme-heading border-0 outline-none" autocomplete="off">
+        <button class="search-close absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-theme-alt hover:text-theme-heading transition-base" aria-label="Close search">
+          <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Results Container -->
+      <div id="js-results-container" class="hidden border-t border-theme max-h-[60vh] overflow-y-auto" aria-live="polite">
+        <p class="no-results px-4 py-6 text-center text-theme-alt text-sm">No results found.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var overlay = document.getElementById('search-overlay');
+  if (!overlay) return;
+
+  function closeSearch() {
+    overlay.classList.remove('is-open');
+    document.body.classList.remove('overflow-hidden');
+    // Restore focus to the element that opened the search
+    if (overlay._triggerElement) {
+      overlay._triggerElement.focus();
+      overlay._triggerElement = null;
+    }
+  }
+
+  // Close button
+  var closeBtn = overlay.querySelector('.search-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeSearch);
+  }
+
+  // Click backdrop to close
+  var backdrop = overlay.querySelector('.search-backdrop');
+  if (backdrop) {
+    backdrop.addEventListener('click', closeSearch);
+  }
+
+  // Escape key to close
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+      closeSearch();
+    }
+  });
+
+  // Focus trap within search overlay
+  overlay.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab' || !overlay.classList.contains('is-open')) return;
+
+    var focusable = overlay.querySelectorAll('input, button, [tabindex]:not([tabindex="-1"]), a[href]');
+    if (focusable.length === 0) return;
+
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+})();
+</script>
+<script src="{{ "js/search.js" | relURL }}" defer></script>

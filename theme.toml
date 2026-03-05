@@ -1,0 +1,8 @@
+name = 'Danto'
+license = 'MIT'
+description = 'A news and magazine Hugo theme'
+min_version = '0.128.0'
+
+[author]
+  name = 'Danto Theme'
+  homepage = 'https://github.com/danto-theme'

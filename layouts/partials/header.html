@@ -1,0 +1,196 @@
+<header class="sticky top-0 z-50 bg-theme border-b border-theme" id="site-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+
+      <!-- Logo -->
+      <a href="{{ "/" | relURL }}" class="flex-shrink-0" aria-label="{{ site.Title }} home">
+        {{ partial "image" (dict "src" site.Params.logo "alt" site.Title "class" "logo-light h-8 lg:h-10" "loading" "eager" "width" 120 "height" 40) }}
+        {{ partial "image" (dict "src" site.Params.logo_dark "alt" site.Title "class" "logo-dark h-8 lg:h-10" "loading" "eager" "width" 120 "height" 40) }}
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+        {{ range site.Menus.main }}
+          {{ if .HasChildren }}
+            <div class="nav-dropdown relative">
+              <button class="nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base"
+                      aria-expanded="false" aria-haspopup="true">
+                {{ .Name }}
+                <i class="fa-solid fa-chevron-down text-[10px]" aria-hidden="true"></i>
+              </button>
+              <div class="nav-dropdown-menu absolute top-full left-0 mt-1 min-w-[160px] bg-theme border border-theme rounded-radius-small shadow-lg opacity-0 invisible transition-base z-50" role="menu">
+                {{ range .Children }}
+                  <a href="{{ .URL }}" class="block px-4 py-2 text-sm text-theme-heading hover:bg-theme-alt hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
+                    {{ .Name }}
+                  </a>
+                {{ end }}
+              </div>
+            </div>
+          {{ else }}
+            <a href="{{ .URL }}" class="nav-link px-3 py-2 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
+              {{ .Name }}
+            </a>
+          {{ end }}
+        {{ end }}
+      </nav>
+
+      <!-- Right side: Search + CTA + Hamburger -->
+      <div class="flex items-center gap-3">
+        <!-- Search Button -->
+        <button class="search-open flex items-center gap-2 px-3 py-2 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base" aria-label="Open search">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <span class="hidden sm:inline">Search</span>
+        </button>
+
+        <!-- CTA Button (desktop) -->
+        {{ with site.Params.cta_text }}
+        <a href="{{ site.Params.cta_url | relURL }}" class="hidden lg:inline-flex items-center px-5 py-2 text-sm font-semibold rounded-radius-button bg-theme-btn text-theme-btn bg-theme-btn-hover transition-base">
+          {{ . }}
+        </a>
+        {{ end }}
+
+        <!-- Hamburger -->
+        <button class="hamburger lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5" aria-label="Toggle menu" aria-expanded="false">
+          <span class="hamburger-line block w-6 h-0.5 bg-theme-heading transition-base"></span>
+          <span class="hamburger-line block w-6 h-0.5 bg-theme-heading transition-base"></span>
+          <span class="hamburger-line block w-6 h-0.5 bg-theme-heading transition-base"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav lg:hidden hidden" aria-label="Mobile navigation">
+      <div class="pb-4 pt-2 border-t border-theme">
+        {{ range site.Menus.main }}
+          {{ if .HasChildren }}
+            <div class="mobile-dropdown">
+              <button class="mobile-dropdown-toggle flex items-center justify-between w-full px-3 py-2.5 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base" aria-expanded="false" aria-haspopup="true">
+                {{ .Name }}
+                <i class="fa-solid fa-chevron-down text-[10px] transition-base" aria-hidden="true"></i>
+              </button>
+              <div class="mobile-dropdown-menu hidden pl-4">
+                {{ range .Children }}
+                  <a href="{{ .URL }}" class="block px-3 py-2 text-sm text-theme-heading hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
+                    {{ .Name }}
+                  </a>
+                {{ end }}
+              </div>
+            </div>
+          {{ else }}
+            <a href="{{ .URL }}" class="block px-3 py-2.5 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
+              {{ .Name }}
+            </a>
+          {{ end }}
+        {{ end }}
+
+        <!-- CTA in mobile menu -->
+        {{ with site.Params.cta_text }}
+        <div class="mt-3 px-3">
+          <a href="{{ site.Params.cta_url | relURL }}" class="inline-flex items-center px-5 py-2 text-sm font-semibold rounded-radius-button bg-theme-btn text-theme-btn bg-theme-btn-hover transition-base">
+            {{ . }}
+          </a>
+        </div>
+        {{ end }}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+(function() {
+  // Hamburger toggle
+  var hamburger = document.querySelector('.hamburger');
+  var mobileNav = document.querySelector('.mobile-nav');
+  if (hamburger && mobileNav) {
+    hamburger.addEventListener('click', function() {
+      var expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      hamburger.classList.toggle('is-open');
+      mobileNav.classList.toggle('hidden');
+      mobileNav.classList.toggle('is-visible');
+    });
+  }
+
+  // Desktop dropdown hover + keyboard
+  var dropdowns = document.querySelectorAll('.nav-dropdown');
+  dropdowns.forEach(function(dropdown) {
+    var btn = dropdown.querySelector('button');
+    var menu = dropdown.querySelector('.nav-dropdown-menu');
+    var items = menu.querySelectorAll('a');
+
+    function openDropdown() {
+      menu.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+    function closeDropdown() {
+      menu.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    dropdown.addEventListener('mouseenter', openDropdown);
+    dropdown.addEventListener('mouseleave', closeDropdown);
+
+    // Toggle on click (Enter/Space handled natively by button)
+    btn.addEventListener('click', function() {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      if (expanded) { closeDropdown(); } else { openDropdown(); }
+    });
+
+    // Arrow key navigation
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        openDropdown();
+        if (items.length) items[0].focus();
+      } else if (e.key === 'Escape') {
+        closeDropdown();
+        btn.focus();
+      }
+    });
+
+    items.forEach(function(item, idx) {
+      item.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (idx < items.length - 1) items[idx + 1].focus();
+          else items[0].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (idx > 0) items[idx - 1].focus();
+          else btn.focus();
+        } else if (e.key === 'Escape') {
+          closeDropdown();
+          btn.focus();
+        }
+      });
+    });
+  });
+
+  // Mobile dropdown toggle
+  var mobileDropdowns = document.querySelectorAll('.mobile-dropdown-toggle');
+  mobileDropdowns.forEach(function(toggle) {
+    toggle.addEventListener('click', function() {
+      var expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      var menu = toggle.nextElementSibling;
+      menu.classList.toggle('hidden');
+      toggle.querySelector('i').classList.toggle('rotate-180');
+    });
+  });
+
+  // Search open — store trigger for focus restore
+  var searchBtns = document.querySelectorAll('.search-open');
+  searchBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var overlay = document.getElementById('search-overlay');
+      if (overlay) {
+        overlay._triggerElement = btn;
+        overlay.classList.add('is-open');
+        document.body.classList.add('overflow-hidden');
+        var input = overlay.querySelector('input');
+        if (input) input.focus();
+      }
+    });
+  });
+})();
+</script>

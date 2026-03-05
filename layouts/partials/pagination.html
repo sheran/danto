@@ -1,0 +1,64 @@
+{{ $paginator := .Paginator }}
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="flex justify-center items-center gap-2 mt-12 mb-8" aria-label="Pagination">
+  {{/* Previous button */}}
+  {{ if $paginator.HasPrev }}
+    <a href="{{ $paginator.Prev.URL }}" class="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-alt)] hover:bg-[var(--btn-bg)] hover:text-[var(--btn-color)] text-[var(--heading)] transition-base" aria-label="Previous page">
+      <i class="fa-solid fa-chevron-left text-sm" aria-hidden="true"></i>
+    </a>
+  {{ else }}
+    <span class="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-alt)] opacity-40 cursor-default" aria-disabled="true">
+      <i class="fa-solid fa-chevron-left text-sm" aria-hidden="true"></i>
+    </span>
+  {{ end }}
+
+  {{/* Page numbers with window */}}
+  {{ $current := $paginator.PageNumber }}
+  {{ $total := $paginator.TotalPages }}
+  {{ $windowSize := 2 }}
+
+  {{ range $paginator.Pagers }}
+    {{ $pageNum := .PageNumber }}
+    {{ $showPage := false }}
+
+    {{/* Always show first and last page */}}
+    {{ if or (eq $pageNum 1) (eq $pageNum $total) }}
+      {{ $showPage = true }}
+    {{ end }}
+
+    {{/* Show pages within window of current */}}
+    {{ if and (ge $pageNum (sub $current $windowSize)) (le $pageNum (add $current $windowSize)) }}
+      {{ $showPage = true }}
+    {{ end }}
+
+    {{ if $showPage }}
+      {{/* Show ellipsis before this page if there's a gap */}}
+      {{ if and (gt $pageNum 1) (gt $pageNum (add 1 1)) }}
+        {{ $prevExpected := sub $pageNum 1 }}
+        {{ $prevInWindow := and (ge $prevExpected (sub $current $windowSize)) (le $prevExpected (add $current $windowSize)) }}
+        {{ $prevIsFirst := eq $prevExpected 1 }}
+        {{ if not (or $prevInWindow $prevIsFirst) }}
+          <span class="w-10 h-10 flex items-center justify-center text-[var(--text)]">&hellip;</span>
+        {{ end }}
+      {{ end }}
+
+      {{ if eq . $paginator }}
+        <span class="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--btn-bg)] text-[var(--btn-color)] font-semibold" aria-current="page">{{ $pageNum }}</span>
+      {{ else }}
+        <a href="{{ .URL }}" class="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-alt)] hover:bg-[var(--bg-alt-2)] text-[var(--heading)] transition-base">{{ $pageNum }}</a>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{/* Next button */}}
+  {{ if $paginator.HasNext }}
+    <a href="{{ $paginator.Next.URL }}" class="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-alt)] hover:bg-[var(--btn-bg)] hover:text-[var(--btn-color)] text-[var(--heading)] transition-base" aria-label="Next page">
+      <i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
+    </a>
+  {{ else }}
+    <span class="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--bg-alt)] opacity-40 cursor-default" aria-disabled="true">
+      <i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
+    </span>
+  {{ end }}
+</nav>
+{{ end }}

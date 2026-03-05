@@ -1,0 +1,43 @@
+[[main]]
+  identifier = 'home'
+  name = 'Home'
+  url = '/'
+  weight = 1
+
+[[main]]
+  identifier = 'latest'
+  name = 'Latest'
+  url = '/posts/'
+  weight = 2
+
+[[main]]
+  identifier = 'authors'
+  name = 'Authors'
+  url = '/authors/'
+  weight = 3
+
+[[main]]
+  identifier = 'tags'
+  name = 'Tags'
+  url = '/tags/'
+  weight = 4
+
+[[main]]
+  identifier = 'pages'
+  name = 'Pages'
+  url = '#'
+  weight = 5
+
+[[main]]
+  identifier = 'about'
+  name = 'About'
+  url = '/about/'
+  parent = 'pages'
+  weight = 1
+
+[[main]]
+  identifier = 'contact'
+  name = 'Contact'
+  url = '/contact/'
+  parent = 'pages'
+  weight = 2

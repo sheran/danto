@@ -1,0 +1,28 @@
+{{/*
+  Image Partial - Optimized image rendering with lazy loading and CLS prevention
+
+  Usage: {{ partial "image" (dict "src" "/images/photo.jpg" "alt" "Description" "class" "w-full" "loading" "lazy" "width" 800 "height" 600) }}
+
+  Params:
+    src      - Image source URL (required)
+    alt      - Alt text (required)
+    class    - CSS classes (optional)
+    loading  - "lazy" (default) or "eager" for above-fold images
+    width    - Explicit width attribute for CLS prevention (optional)
+    height   - Explicit height attribute for CLS prevention (optional)
+*/}}
+{{ $src := .src }}
+{{ $alt := .alt | default "" }}
+{{ $class := .class | default "" }}
+{{ $loading := .loading | default "lazy" }}
+{{ $width := .width | default 0 }}
+{{ $height := .height | default 0 }}
+
+<img
+  src="{{ $src | relURL }}"
+  alt="{{ $alt }}"
+  {{ with $class }}class="{{ . }}"{{ end }}
+  loading="{{ $loading }}"
+  {{ if gt $width 0 }}width="{{ $width }}"{{ end }}
+  {{ if gt $height 0 }}height="{{ $height }}"{{ end }}
+>

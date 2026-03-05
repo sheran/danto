@@ -1,0 +1,25 @@
+{{ define "main" }}
+<section class="py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <h1 class="text-3xl lg:text-4xl font-bold text-theme-heading mb-8">{{ .Title }}</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {{ range .Pages }}
+      <article class="rounded-[22px] bg-[var(--bg-alt)] p-8 animate">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <a href="{{ .RelPermalink }}" class="shrink-0">
+            {{ partial "image" (dict "src" ((.Params.avatar) | default "/images/default-avatar.jpg") "alt" .Title "class" "w-32 h-32 rounded-full object-cover transition-base hover:opacity-80" "loading" "lazy" "width" 128 "height" 128) }}
+          </a>
+          <div class="text-center sm:text-left">
+            <h2 class="text-xl font-bold text-theme-heading mb-1">
+              <a href="{{ .RelPermalink }}" class="hover:text-[var(--primary)] transition-base">{{ .Title }}</a>
+            </h2>
+            <p class="text-sm text-theme opacity-70 mb-3">{{ .Pages.Len }} {{ if eq (.Pages.Len) 1 }}post{{ else }}posts{{ end }}</p>
+            <p class="text-theme text-sm line-clamp-4">{{ with .Params.bio }}{{ . }}{{ else }}{{ .Description }}{{ end }}</p>
+          </div>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

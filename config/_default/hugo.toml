@@ -1,0 +1,27 @@
+summaryLength = 30
+
+[pagination]
+  pagerSize = 9
+
+[permalinks]
+  posts = '/:slug/'
+
+[taxonomies]
+  tag = 'tags'
+  author = 'authors'
+
+[outputs]
+  home = ['HTML', 'JSON']
+
+[related]
+  includeNewer = true
+  threshold = 80
+  toLower = true
+  [[related.indices]]
+    name = 'tags'
+    weight = 100
+
+[minify]
+  [minify.tdewolff]
+    [minify.tdewolff.html]
+      keepWhitespace = false

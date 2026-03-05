@@ -1,0 +1,32 @@
+{{ define "main" }}
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-theme-heading font-heading text-4xl lg:text-5xl font-bold mb-8">{{ .Title }}</h1>
+      {{ with .Content }}
+      <div class="post-content mb-12">
+        {{ . }}
+      </div>
+      {{ end }}
+      <form{{ with .Params.form_action }} action="{{ . }}" method="POST"{{ else }} onsubmit="return false;"{{ end }} class="space-y-6">
+        <div>
+          <input type="text" name="name" placeholder="Your Name" required aria-label="Your name"
+            class="w-full rounded-full border border-[var(--border)] bg-[var(--bg-alt)] text-theme p-4 focus:outline-none focus:border-[var(--primary)]">
+        </div>
+        <div>
+          <input type="email" name="email" placeholder="Your Email" required aria-label="Your email"
+            class="w-full rounded-full border border-[var(--border)] bg-[var(--bg-alt)] text-theme p-4 focus:outline-none focus:border-[var(--primary)]">
+        </div>
+        <div>
+          <textarea name="message" placeholder="Your Message" rows="6" required aria-label="Your message"
+            class="w-full rounded-2xl border border-[var(--border)] bg-[var(--bg-alt)] text-theme p-4 focus:outline-none focus:border-[var(--primary)]"></textarea>
+        </div>
+        <div>
+          <button type="submit"
+            class="btn-theme rounded-full px-8 py-4 font-semibold transition-base">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{{ end }}

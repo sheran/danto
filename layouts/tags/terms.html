@@ -1,0 +1,15 @@
+{{ define "main" }}
+<section class="py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <h1 class="text-3xl lg:text-4xl font-bold text-theme-heading mb-8">{{ .Title }}</h1>
+    <div class="flex flex-wrap gap-3">
+      {{ range .Pages }}
+      <a href="{{ .RelPermalink }}" class="inline-flex items-center gap-2 rounded-full px-6 py-3 bg-[var(--bg-alt)] hover:bg-[var(--primary)] hover:text-white transition-base text-sm font-medium text-theme">
+        {{ .Title }}
+        <span class="text-xs opacity-70">({{ .Pages.Len }})</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

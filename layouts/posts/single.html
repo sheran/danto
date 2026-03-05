@@ -1,0 +1,79 @@
+{{ define "main" }}
+<article class="py-12 px-4">
+  <div class="max-w-7xl mx-auto">
+    <!-- Post Header -->
+    <header class="max-w-3xl mb-8">
+      {{/* Tag pills */}}
+      {{ with .Params.tags }}
+        <div class="flex flex-wrap gap-2 mb-4">
+          {{ range . }}
+            <a href="{{ (urlize (printf "/tags/%s/" .)) | relURL }}" class="rounded-full px-4 py-1.5 text-xs font-medium text-theme-heading hover:bg-theme-primary hover:text-theme-btn transition-base" style="background: var(--bg-alt);">{{ . | humanize | title }}</a>
+          {{ end }}
+        </div>
+      {{ end }}
+      {{/* Title */}}
+      <h1 class="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-theme-heading leading-tight mb-4">{{ .Title }}</h1>
+      {{/* Description */}}
+      {{ with .Description }}
+        <p class="text-lg" style="color: var(--text-alt);">{{ . }}</p>
+      {{ end }}
+    </header>
+
+    <!-- Author Info Bar -->
+    {{ $authorSlug := index .Params.authors 0 }}
+    {{ with $authorSlug }}
+      {{ $authorPage := site.GetPage (printf "/authors/%s" .) }}
+      {{ if $authorPage }}
+        <div class="flex items-center gap-3 mb-8">
+          {{ with $authorPage.Params.avatar }}
+            {{ partial "image" (dict "src" . "alt" $authorPage.Title "class" "w-12 h-12 rounded-full object-cover" "loading" "eager" "width" 48 "height" 48) }}
+          {{ end }}
+          <div>
+            <a href="{{ $authorPage.RelPermalink }}" class="font-medium text-theme-heading hover:text-theme-primary transition-base">{{ $authorPage.Title }}</a>
+            <time datetime="{{ $.Date.Format "2006-01-02" }}" class="block text-sm" style="color: var(--text-alt);">{{ $.Date.Format "January 2, 2006" }}</time>
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+
+    <!-- Content Grid: 9-col + 3-col sidebar -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Main Content (9 cols) -->
+      <div class="lg:col-span-9">
+        {{/* Featured Image */}}
+        {{ with .Params.image }}
+          <div class="rounded-[22px] overflow-hidden mb-8" style="aspect-ratio: 4/3;">
+            {{ partial "image" (dict "src" . "alt" $.Title "class" "w-full h-full object-cover" "loading" "eager" "width" 1200 "height" 900) }}
+          </div>
+        {{ end }}
+
+        {{/* Post Content */}}
+        <div class="post-content text-theme">
+          {{ .Content }}
+        </div>
+
+        {{/* Share Links */}}
+        <nav aria-label="Share this post" class="flex items-center gap-4 pt-6 mt-8" style="border-top: 1px solid var(--border);">
+          <span class="font-medium text-theme-heading">Share:</span>
+          <div class="flex gap-3">
+            <a href="https://twitter.com/intent/tweet?text={{ .Title | urlquery }}&url={{ .Permalink | urlquery }}" target="_blank" rel="noopener" aria-label="Share on Twitter" class="share-btn">
+              <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | urlquery }}" target="_blank" rel="noopener" aria-label="Share on Facebook" class="share-btn">
+              <i class="fa-brands fa-facebook" aria-hidden="true"></i>
+            </a>
+            <a href="https://pinterest.com/pin/create/button/?url={{ .Permalink | urlquery }}&media={{ .Params.image | absURL | urlquery }}&description={{ .Title | urlquery }}" target="_blank" rel="noopener" aria-label="Share on Pinterest" class="share-btn">
+              <i class="fa-brands fa-pinterest" aria-hidden="true"></i>
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Sidebar (3 cols) -->
+      <aside class="lg:col-span-3 order-last">
+        {{ partial "sidebar.html" . }}
+      </aside>
+    </div>
+  </div>
+</article>
+{{ end }}

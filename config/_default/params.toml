@@ -1,0 +1,48 @@
+description = 'A modern news and magazine theme for Hugo'
+logo = 'images/logo.svg'
+logo_dark = 'images/logo-dark.svg'
+hero_title = 'Stay Informed with the Latest News & Insights'
+hero_description = 'Your source for the latest stories, expert analysis, and in-depth reporting across lifestyle, business, food, sport, and more.'
+subscribe_action = ''
+cta_text = 'Get in touch'
+cta_url = '/contact/'
+
+[[social]]
+  platform = 'twitter'
+  url = 'https://twitter.com/'
+  icon = 'fa-brands fa-x-twitter'
+
+[[social]]
+  platform = 'facebook'
+  url = 'https://facebook.com/'
+  icon = 'fa-brands fa-facebook-f'
+
+[[social]]
+  platform = 'github'
+  url = 'https://github.com/'
+  icon = 'fa-brands fa-github'
+
+[[social]]
+  platform = 'youtube'
+  url = 'https://youtube.com/'
+  icon = 'fa-brands fa-youtube'
+
+[[homepage_sections]]
+  tag = 'lifestyle'
+  title = 'Lifestyle'
+  count = 3
+
+[[homepage_sections]]
+  tag = 'business'
+  title = 'Business'
+  count = 3
+
+[[homepage_sections]]
+  tag = 'food'
+  title = 'Food'
+  count = 3
+
+[[homepage_sections]]
+  tag = 'sport'
+  title = 'Sport'
+  count = 3

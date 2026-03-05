@@ -1,0 +1,136 @@
+<footer class="bg-theme-alt border-t border-theme pt-12 pb-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Three-column layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-10">
+
+      <!-- Column 1: Site Info -->
+      <div>
+        <a href="{{ "/" | relURL }}" class="inline-block mb-4" aria-label="{{ site.Title }} home">
+          {{ partial "image" (dict "src" site.Params.logo "alt" site.Title "class" "logo-light h-8" "loading" "lazy" "width" 120 "height" 32) }}
+          {{ partial "image" (dict "src" site.Params.logo_dark "alt" site.Title "class" "logo-dark h-8" "loading" "lazy" "width" 120 "height" 32) }}
+        </a>
+        {{ with site.Params.description }}
+          <p class="text-theme-alt text-sm leading-relaxed mb-5">{{ . }}</p>
+        {{ end }}
+        {{ with site.Params.social }}
+          <nav aria-label="Social media links" class="flex items-center gap-3">
+            {{ range . }}
+              <a href="{{ .url }}" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full border border-theme text-theme-heading hover:bg-theme-primary hover:text-theme-btn transition-base" aria-label="{{ .platform }}">
+                <i class="{{ .icon }}" aria-hidden="true"></i>
+              </a>
+            {{ end }}
+          </nav>
+        {{ end }}
+      </div>
+
+      <!-- Column 2: Recent Posts -->
+      <div>
+        <h3 class="text-theme-heading font-semibold text-lg mb-5">Recent posts</h3>
+        {{ $recentPosts := first 2 (where site.RegularPages "Section" "posts") }}
+        {{ range $recentPosts }}
+          <a href="{{ .RelPermalink }}" class="flex gap-3 mb-4 group">
+            <div class="w-16 h-16 flex-shrink-0 rounded-radius-small overflow-hidden">
+              {{ with .Params.image }}
+                {{ partial "image" (dict "src" . "alt" $.Title "class" "w-full h-full object-cover" "loading" "lazy" "width" 64 "height" 64) }}
+              {{ else }}
+                <div class="w-full h-full bg-theme-alt-2"></div>
+              {{ end }}
+            </div>
+            <div class="flex-1 min-w-0">
+              {{ with .Params.tags }}
+                <span class="text-theme-primary text-xs font-medium uppercase">{{ index . 0 }}</span>
+              {{ end }}
+              <h4 class="text-theme-heading text-sm font-medium leading-snug group-hover:text-theme-primary transition-base line-clamp-2">{{ .Title }}</h4>
+              <div class="flex items-center gap-2 mt-1 text-xs text-theme-alt">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>
+                {{ with .Params.authors }}
+                  <span>&middot;</span>
+                  <span>{{ index . 0 }}</span>
+                {{ end }}
+              </div>
+            </div>
+          </a>
+        {{ end }}
+      </div>
+
+      <!-- Column 3: Subscribe -->
+      <div>
+        <h3 class="text-theme-heading font-semibold text-lg mb-3">Get interesting news</h3>
+        <p class="text-theme-alt text-sm leading-relaxed mb-5">Subscribe to our newsletter and stay updated on the latest stories and insights.</p>
+        <form{{ with site.Params.subscribe_action }} action="{{ . }}" method="POST"{{ end }} class="flex flex-col sm:flex-row gap-3">
+          <input type="email" placeholder="Enter your email" required aria-label="Email address"
+                 class="flex-1 px-4 py-2.5 text-sm rounded-radius-button border border-theme bg-theme text-theme focus:outline-none focus:border-[var(--primary)]">
+          <button type="submit" class="px-6 py-2.5 text-sm font-semibold rounded-radius-button bg-theme-btn text-theme-btn bg-theme-btn-hover transition-base whitespace-nowrap">
+            Subscribe
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Footer Info Bar -->
+    <div class="border-t border-theme py-5 flex flex-wrap items-center justify-between gap-4">
+      <p class="text-theme-alt text-sm">&copy; {{ now.Year }} {{ site.Title }}. All rights reserved.</p>
+
+      <div class="flex items-center gap-4">
+        <!-- Dark/Light toggle -->
+        <button id="toggle-theme" type="button" class="flex items-center gap-1.5 cursor-pointer text-theme-heading hover:text-theme-primary transition-base select-none bg-transparent border-0 p-0" aria-label="Toggle dark mode">
+          <div class="toggle-moon flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <span class="text-sm font-medium">Dark</span>
+          </div>
+          <div class="toggle-sun flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <span class="text-sm font-medium">Light</span>
+          </div>
+        </button>
+
+        <!-- Back to top -->
+        <div id="back-to-top" class="flex items-center gap-1.5 cursor-pointer text-theme-heading hover:text-theme-primary transition-base select-none text-sm font-medium underline decoration-transparent hover:decoration-current" role="button" tabindex="0" aria-label="Back to top">
+          <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+          <span>Back to top</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+(function() {
+  // Dark/Light mode toggle
+  var toggle = document.getElementById('toggle-theme');
+  if (toggle) {
+    function setTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.setAttribute('dark', '');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark-mode');
+        document.documentElement.removeAttribute('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    toggle.addEventListener('click', function() {
+      var isDark = !document.documentElement.classList.contains('dark-mode');
+      setTheme(isDark);
+    });
+  }
+
+  // Back to top
+  var btn = document.getElementById('back-to-top');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
+})();
+</script>
