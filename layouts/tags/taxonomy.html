@@ -1,17 +1,15 @@
 {{ define "main" }}
-<section class="py-12 md:py-16">
+<section class="py-12 lg:py-16">
   <div class="max-w-7xl mx-auto px-4">
-    <h1 class="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-theme-heading mb-10">{{ .Title }}</h1>
-
-    {{ $paginator := .Paginate .Pages }}
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {{ range $paginator.Pages }}
-        {{ partial "article-card" (dict "page" . "variant" "standard") }}
+    <h1 class="text-3xl lg:text-4xl font-bold text-theme-heading mb-8">{{ .Title }}</h1>
+    <div class="flex flex-wrap gap-3">
+      {{ range .Pages }}
+      <a href="{{ .RelPermalink }}" class="inline-flex items-center gap-2 rounded-full px-6 py-3 bg-[var(--bg-alt)] hover:bg-[var(--primary)] hover:text-white transition-base text-sm font-medium text-theme">
+        {{ .Title }}
+        <span class="text-xs opacity-70">({{ .Pages.Len }})</span>
+      </a>
       {{ end }}
     </div>
-
-    {{ partial "pagination.html" . }}
   </div>
 </section>
 {{ end }}

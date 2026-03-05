@@ -1,47 +1,25 @@
 {{ define "main" }}
 <section class="py-12 lg:py-16">
   <div class="max-w-7xl mx-auto px-4">
-
-    {{/* === Author Header === */}}
-    <div class="flex flex-col items-center text-center mb-12">
-      {{ with .Params.avatar }}
-        {{ partial "image" (dict "src" . "alt" $.Title "class" "w-36 h-36 rounded-full object-cover mb-6" "loading" "eager" "width" 144 "height" 144) }}
-      {{ end }}
-      <h1 class="text-3xl lg:text-4xl font-bold text-theme-heading mb-3">{{ .Title }}</h1>
-      {{ with .Params.bio }}
-        <p class="text-theme max-w-2xl text-lg leading-relaxed mb-4">{{ . }}</p>
-      {{ end }}
-      {{ with .Params.social }}
-        <div class="flex items-center gap-4 mt-2">
-          {{ range $platform, $url := . }}
-            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="text-theme hover:text-theme-primary transition-base text-lg" aria-label="{{ $platform }}">
-              {{ if eq $platform "twitter" }}<i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-              {{ else if eq $platform "facebook" }}<i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
-              {{ else if eq $platform "instagram" }}<i class="fa-brands fa-instagram" aria-hidden="true"></i>
-              {{ else if eq $platform "github" }}<i class="fa-brands fa-github" aria-hidden="true"></i>
-              {{ else if eq $platform "linkedin" }}<i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-              {{ else if eq $platform "youtube" }}<i class="fa-brands fa-youtube" aria-hidden="true"></i>
-              {{ else }}<i class="fa-solid fa-link" aria-hidden="true"></i>
-              {{ end }}
-            </a>
-          {{ end }}
+    <h1 class="text-3xl lg:text-4xl font-bold text-theme-heading mb-8">{{ .Title }}</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {{ range .Pages }}
+      <article class="rounded-[22px] bg-[var(--bg-alt)] p-8 animate">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <a href="{{ .RelPermalink }}" class="shrink-0">
+            {{ partial "image" (dict "src" ((.Params.avatar) | default "/images/default-avatar.jpg") "alt" .Title "class" "w-32 h-32 rounded-full object-cover transition-base hover:opacity-80" "loading" "lazy" "width" 128 "height" 128) }}
+          </a>
+          <div class="text-center sm:text-left">
+            <h2 class="text-xl font-bold text-theme-heading mb-1">
+              <a href="{{ .RelPermalink }}" class="hover:text-[var(--primary)] transition-base">{{ .Title }}</a>
+            </h2>
+            <p class="text-sm text-theme opacity-70 mb-3">{{ .Pages.Len }} {{ if eq (.Pages.Len) 1 }}post{{ else }}posts{{ end }}</p>
+            <p class="text-theme text-sm line-clamp-4">{{ with .Params.bio }}{{ . }}{{ else }}{{ .Description }}{{ end }}</p>
+          </div>
         </div>
+      </article>
       {{ end }}
     </div>
-
-    {{/* === Author's Posts Grid === */}}
-    {{ $paginator := .Paginate .Pages }}
-    {{ if gt (len $paginator.Pages) 0 }}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {{ range $paginator.Pages }}
-          {{ partial "article-card" (dict "page" . "variant" "standard") }}
-        {{ end }}
-      </div>
-      {{ partial "pagination" . }}
-    {{ else }}
-      <p class="text-theme text-center">No posts by this author yet.</p>
-    {{ end }}
-
   </div>
 </section>
 {{ end }}
