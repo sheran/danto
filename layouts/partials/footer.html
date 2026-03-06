@@ -54,8 +54,8 @@
                 <a href="{{ .RelPermalink }}" class="underline decoration-transparent hover:decoration-current transition-base">{{ .Title }}</a>
               </h4>
               <!-- Author -->
-              {{ with .Params.authors }}
-                {{ $authorSlug := index . 0 }}
+              {{ if .Params.authors }}
+                {{ $authorSlug := index .Params.authors 0 }}
                 {{ $authorPage := site.GetPage (printf "/authors/%s" $authorSlug) }}
                 <p class="text-[11px] font-medium text-[var(--heading)]">By
                   {{ if $authorPage }}
@@ -64,6 +64,8 @@
                     {{ $authorSlug }}
                   {{ end }}
                 </p>
+              {{ else }}
+                <p class="text-[11px] font-medium text-[var(--heading)]">By Admin</p>
               {{ end }}
             </div>
           </div>

@@ -29,7 +29,7 @@
       {{ with index $tags 0 }}
         <a href="{{ (urlize (printf "/tags/%s/" .)) | relURL }}" class="bg-[var(--bg-alt)] px-4 py-1.5 rounded-full capitalize font-medium text-[var(--heading)]">{{ . }}</a>
       {{ end }}
-      <time datetime="{{ $page.Date.Format "2006-01-02" }}" class="text-[var(--text-alt)]">&bull; {{ $page.Date.Format "Jan 02, 2006" }}</time>
+      <time datetime="{{ $page.Date.Format "2006-01-02" }}" class="text-[var(--heading)] uppercase">&bull; {{ $page.Date.Format "Jan 02, 2006" }}</time>
     </div>
 
     {{/* Title */}}
@@ -49,12 +49,17 @@
     {{ end }}
 
     {{/* Author line */}}
-    {{ with index $authors 0 }}
-      {{ $authorSlug := . }}
+    {{ if and $authors (gt (len $authors) 0) }}
+      {{ $authorSlug := index $authors 0 }}
       {{ $authorPage := site.GetPage (printf "/authors/%s" $authorSlug) }}
       <div class="text-xs font-medium text-[var(--text-alt)]">
         <span>By</span>
         <a href="{{ (urlize (printf "/authors/%s/" $authorSlug)) | relURL }}" class="text-[var(--heading)] underline decoration-transparent hover:decoration-current transition-base">{{ if $authorPage }}{{ $authorPage.Title }}{{ else }}{{ $authorSlug | humanize | title }}{{ end }}</a>
+      </div>
+    {{ else }}
+      <div class="text-xs font-medium text-[var(--text-alt)]">
+        <span>By</span>
+        <span class="text-[var(--heading)]">Admin</span>
       </div>
     {{ end }}
   </div>
