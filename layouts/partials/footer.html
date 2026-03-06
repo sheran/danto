@@ -30,34 +30,34 @@
         {{ $recentPosts := first 2 (where site.RegularPages "Section" "posts") }}
         {{ range $recentPosts }}
           {{ $postPage := . }}
-          <div class="flex flex-col sm:flex-row mb-6">
+          <div class="flex flex-row mb-5 last:mb-0">
             <!-- Thumbnail -->
-            <a href="{{ .RelPermalink }}" class="w-full sm:w-[180px] flex-shrink-0 rounded-[22px] overflow-hidden relative" style="aspect-ratio: 4/3;">
+            <a href="{{ .RelPermalink }}" class="w-[130px] flex-shrink-0 rounded-[16px] overflow-hidden relative" style="aspect-ratio: 4/3;">
               {{ with .Params.image }}
-                {{ partial "image" (dict "src" . "alt" $postPage.Title "page" $postPage "class" "w-full h-full object-cover" "loading" "lazy" "width" 180 "height" 135) }}
+                {{ partial "image" (dict "src" . "alt" $postPage.Title "page" $postPage "class" "absolute inset-0 w-full h-full object-cover" "loading" "lazy" "width" 130 "height" 98) }}
               {{ else }}
-                <div class="w-full h-full bg-theme-alt-2"></div>
+                <div class="absolute inset-0 w-full h-full bg-theme-alt-2"></div>
               {{ end }}
             </a>
             <!-- Content -->
-            <div class="flex-1 min-w-0 sm:ml-5 mt-3 sm:mt-0 flex flex-col justify-center">
+            <div class="flex-1 min-w-0 ml-4 flex flex-col justify-center">
               <!-- Tag + date row -->
-              <div class="flex items-center gap-2 mb-1.5">
+              <div class="flex items-center gap-1.5 mb-1">
                 {{ with .Params.tags }}
-                  <span class="bg-[var(--bg-alt)] px-3 py-1 rounded-full capitalize font-medium text-[var(--heading)] text-xs">{{ index . 0 }}</span>
+                  <span class="bg-[var(--bg-alt)] px-2 py-0.5 rounded-full capitalize font-medium text-[var(--heading)] text-[11px]">{{ index . 0 }}</span>
                 {{ end }}
-                <span class="text-[var(--heading)] text-xs">&middot;</span>
-                <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-[var(--heading)] uppercase text-xs">{{ .Date.Format "Jan 02, 2006" }}</time>
+                <span class="text-[var(--heading)] text-[11px]">&middot;</span>
+                <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-[var(--heading)] uppercase text-[11px]">{{ .Date.Format "Jan 02, 2006" }}</time>
               </div>
               <!-- Title -->
-              <h4 class="font-serif text-base font-bold text-[var(--heading)] leading-snug mb-1.5">
+              <h4 class="font-serif text-sm font-bold text-[var(--heading)] leading-snug mb-1">
                 <a href="{{ .RelPermalink }}" class="underline decoration-transparent hover:decoration-current transition-base">{{ .Title }}</a>
               </h4>
               <!-- Author -->
               {{ with .Params.authors }}
                 {{ $authorSlug := index . 0 }}
                 {{ $authorPage := site.GetPage (printf "/authors/%s" $authorSlug) }}
-                <p class="text-xs font-medium text-[var(--heading)]">By
+                <p class="text-[11px] font-medium text-[var(--heading)]">By
                   {{ if $authorPage }}
                     <a href="{{ $authorPage.RelPermalink }}" class="underline decoration-transparent hover:decoration-current transition-base">{{ $authorPage.Title }}</a>
                   {{ else }}
