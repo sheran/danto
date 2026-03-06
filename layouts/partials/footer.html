@@ -29,10 +29,11 @@
         <h3 class="text-theme-heading font-semibold text-lg mb-5">Recent posts</h3>
         {{ $recentPosts := first 2 (where site.RegularPages "Section" "posts") }}
         {{ range $recentPosts }}
+          {{ $postPage := . }}
           <a href="{{ .RelPermalink }}" class="flex gap-3 mb-4 group">
             <div class="w-16 h-16 flex-shrink-0 rounded-radius-small overflow-hidden">
               {{ with .Params.image }}
-                {{ partial "image" (dict "src" . "alt" $.Title "class" "w-full h-full object-cover" "loading" "lazy" "width" 64 "height" 64) }}
+                {{ partial "image" (dict "src" . "alt" $postPage.Title "page" $postPage "class" "w-full h-full object-cover" "loading" "lazy" "width" 64 "height" 64) }}
               {{ else }}
                 <div class="w-full h-full bg-theme-alt-2"></div>
               {{ end }}
