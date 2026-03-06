@@ -9,7 +9,7 @@
 {{ $tags := $page.Params.tags }}
 {{ $authors := $page.Params.authors }}
 
-<article class="h-full flex flex-col">
+<article class="h-full flex flex-col animate">
   {{/* Image section */}}
   <a href="{{ $page.RelPermalink }}" class="article-image block rounded-[22px] hover:-translate-y-1 transition-base relative">
     {{ partial "image" (dict "src" $image "alt" $page.Title "page" $page "class" "w-full h-full object-cover" "loading" "lazy" "width" 800 "height" 600) }}
