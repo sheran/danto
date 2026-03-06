@@ -1,8 +1,8 @@
-<footer class="bg-theme-alt border-t border-theme pt-12 pb-0">
+<footer class="pt-12 pb-0">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Three-column layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 border-t border-b border-theme pt-16 pb-16">
 
       <!-- Column 1: Site Info -->
       <div>
@@ -44,7 +44,7 @@
               <!-- Tag + date row -->
               <div class="flex items-center gap-1.5 mb-1">
                 {{ with .Params.tags }}
-                  <span class="bg-[var(--bg-alt)] px-2 py-0.5 rounded-full capitalize font-medium text-[var(--heading)] text-[11px]">{{ index . 0 }}</span>
+                  <span class="bg-[var(--bg-alt)] px-3 py-0.5 rounded-full capitalize font-medium text-[var(--heading)] text-[11px]">{{ index . 0 }}</span>
                 {{ end }}
                 <span class="text-[var(--heading)] text-[11px]">&middot;</span>
                 <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-[var(--heading)] uppercase text-[11px]">{{ .Date.Format "Jan 02, 2006" }}</time>
