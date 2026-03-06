@@ -1,6 +1,6 @@
 <header class="sticky top-0 z-50 bg-theme border-b border-theme" id="site-header">
   <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16 lg:h-20">
+    <div class="flex items-center h-16 lg:h-20">
 
       <!-- Logo -->
       <a href="{{ "/" | relURL }}" class="flex-shrink-0" aria-label="{{ site.Title }} home">
@@ -9,7 +9,7 @@
       </a>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+      <nav class="hidden lg:flex items-center gap-1 ml-8" aria-label="Main navigation">
         {{ range site.Menus.main }}
           {{ if .HasChildren }}
             <div class="nav-dropdown relative">
@@ -35,7 +35,7 @@
       </nav>
 
       <!-- Right side: Search + CTA + Hamburger -->
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 ml-auto">
         <!-- Search Button -->
         <button class="search-open flex items-center gap-2 px-3 py-2 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base" aria-label="Open search">
           <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
