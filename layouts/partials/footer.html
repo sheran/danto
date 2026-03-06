@@ -32,7 +32,7 @@
           {{ $postPage := . }}
           <div class="flex flex-row mb-5 last:mb-0">
             <!-- Thumbnail -->
-            <a href="{{ .RelPermalink }}" class="w-[130px] flex-shrink-0 rounded-[16px] overflow-hidden relative" style="aspect-ratio: 4/3;">
+            <a href="{{ .RelPermalink }}" class="flex-shrink-0 rounded-[16px] overflow-hidden relative" style="width: 130px; aspect-ratio: 4/3;">
               {{ with .Params.image }}
                 {{ partial "image" (dict "src" . "alt" $postPage.Title "page" $postPage "class" "absolute inset-0 w-full h-full object-cover" "loading" "lazy" "width" 130 "height" 98) }}
               {{ else }}
