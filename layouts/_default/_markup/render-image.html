@@ -1,0 +1,5 @@
+{{/*
+  Markdown image render hook
+  Enables ![Alt text](diagram.png) to use page bundle resources with image processing.
+*/}}
+{{- partial "image" (dict "src" .Destination "alt" .Text "page" .Page "class" "rounded-lg" "loading" "lazy") -}}

@@ -9,7 +9,7 @@
       <section class="pb-8" style="border-bottom: 1px solid var(--border);" aria-label="About the author">
         <div class="flex flex-col items-center text-center">
           {{ with $authorPage.Params.avatar }}
-            {{ partial "image" (dict "src" . "alt" $authorPage.Title "class" "w-32 h-32 rounded-full object-cover mb-4" "loading" "lazy" "width" 128 "height" 128) }}
+            {{ partial "image" (dict "src" . "alt" $authorPage.Title "page" $authorPage "class" "w-32 h-32 rounded-full object-cover mb-4" "loading" "lazy" "width" 128 "height" 128) }}
           {{ end }}
           <h2 class="font-semibold text-theme-heading mb-2">
             <a href="{{ $authorPage.RelPermalink }}" class="hover:text-theme-primary transition-base">{{ $authorPage.Title }}</a>
@@ -45,10 +45,11 @@
       <h2 class="font-semibold text-theme-heading mb-4">Related Posts</h2>
       <div class="space-y-4">
         {{ range . }}
+          {{ $relPage := . }}
           <a href="{{ .RelPermalink }}" class="flex gap-3 group">
             {{ with .Params.image }}
               <div class="w-[120px] flex-shrink-0 rounded-[16px] overflow-hidden" style="aspect-ratio: 4/3;">
-                {{ partial "image" (dict "src" . "alt" $.Title "class" "w-full h-full object-cover" "loading" "lazy" "width" 120 "height" 90) }}
+                {{ partial "image" (dict "src" . "alt" $relPage.Title "page" $relPage "class" "w-full h-full object-cover" "loading" "lazy" "width" 120 "height" 90) }}
               </div>
             {{ end }}
             <div class="flex-1 min-w-0">

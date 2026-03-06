@@ -26,7 +26,7 @@
       {{ if $authorPage }}
         <div class="flex items-center gap-3 mb-8">
           {{ with $authorPage.Params.avatar }}
-            {{ partial "image" (dict "src" . "alt" $authorPage.Title "class" "w-12 h-12 rounded-full object-cover" "loading" "eager" "width" 48 "height" 48) }}
+            {{ partial "image" (dict "src" . "alt" $authorPage.Title "page" $authorPage "class" "w-12 h-12 rounded-full object-cover" "loading" "eager" "width" 48 "height" 48) }}
           {{ end }}
           <div>
             <a href="{{ $authorPage.RelPermalink }}" class="font-medium text-theme-heading hover:text-theme-primary transition-base">{{ $authorPage.Title }}</a>
@@ -43,7 +43,7 @@
         {{/* Featured Image */}}
         {{ with .Params.image }}
           <div class="rounded-[22px] overflow-hidden mb-8" style="aspect-ratio: 4/3;">
-            {{ partial "image" (dict "src" . "alt" $.Title "class" "w-full h-full object-cover" "loading" "eager" "width" 1200 "height" 900) }}
+            {{ partial "image" (dict "src" . "alt" $.Title "page" $ "class" "w-full h-full object-cover" "loading" "eager" "width" 1200 "height" 900) }}
           </div>
         {{ end }}
 

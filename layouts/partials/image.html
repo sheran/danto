@@ -1,28 +1,105 @@
 {{/*
-  Image Partial - Optimized image rendering with lazy loading and CLS prevention
+  Image Partial - Hugo image processing with page bundle support
 
-  Usage: {{ partial "image" (dict "src" "/images/photo.jpg" "alt" "Description" "class" "w-full" "loading" "lazy" "width" 800 "height" 600) }}
+  Usage: {{ partial "image" (dict "src" "hero.jpg" "alt" "Description" "page" . "class" "w-full" "loading" "lazy" "width" 800 "height" 600) }}
 
   Params:
-    src      - Image source URL (required)
+    src      - Image source (filename for page bundles, or path for static) (required)
     alt      - Alt text (required)
+    page     - Page context for accessing bundle resources (optional)
     class    - CSS classes (optional)
     loading  - "lazy" (default) or "eager" for above-fold images
-    width    - Explicit width attribute for CLS prevention (optional)
+    width    - Target width for resizing / CLS prevention (optional)
     height   - Explicit height attribute for CLS prevention (optional)
 */}}
-{{ $src := .src }}
-{{ $alt := .alt | default "" }}
-{{ $class := .class | default "" }}
-{{ $loading := .loading | default "lazy" }}
-{{ $width := .width | default 0 }}
-{{ $height := .height | default 0 }}
+{{- $src := .src -}}
+{{- $alt := .alt | default "" -}}
+{{- $class := .class | default "" -}}
+{{- $loading := .loading | default "lazy" -}}
+{{- $width := .width | default 0 -}}
+{{- $height := .height | default 0 -}}
+{{- $page := .page -}}
 
-<img
-  src="{{ $src | relURL }}"
-  alt="{{ $alt }}"
-  {{ with $class }}class="{{ . }}"{{ end }}
-  loading="{{ $loading }}"
-  {{ if gt $width 0 }}width="{{ $width }}"{{ end }}
-  {{ if gt $height 0 }}height="{{ $height }}"{{ end }}
->
+{{- $img := false -}}
+
+{{/* 1. Try page bundle resource */}}
+{{- with $page -}}
+  {{- $img = .Resources.GetMatch $src -}}
+{{- end -}}
+
+{{/* 2. Try global asset (assets/ directory) */}}
+{{- if not $img -}}
+  {{- $img = resources.Get $src -}}
+{{- end -}}
+
+{{- if $img -}}
+  {{/* Determine target width, capped at original */}}
+  {{- $tw := cond (gt $width 0) $width $img.Width -}}
+  {{- if gt $tw $img.Width -}}
+    {{- $tw = $img.Width -}}
+  {{- end -}}
+
+  {{/* Generate the primary fallback image */}}
+  {{- $fallback := $img -}}
+  {{- if gt $img.Width $tw -}}
+    {{- $fallback = $img.Resize (printf "%dx" $tw) -}}
+  {{- end -}}
+
+  {{/* Generate WebP version */}}
+  {{- $webp := $fallback.Resize (printf "%dx webp" $fallback.Width) -}}
+
+  {{/* Build responsive srcset for larger images */}}
+  {{- $srcset := slice -}}
+  {{- $srcsetWebp := slice -}}
+  {{- if gt $tw 300 -}}
+    {{- $breakpoints := slice 400 600 800 1200 1600 -}}
+    {{- range $bp := $breakpoints -}}
+      {{- if and (le $bp $img.Width) (le $bp $tw) -}}
+        {{- $resized := $img.Resize (printf "%dx" $bp) -}}
+        {{- $resizedWebp := $resized.Resize (printf "%dx webp" $bp) -}}
+        {{- $srcset = $srcset | append (printf "%s %dw" $resized.RelPermalink $bp) -}}
+        {{- $srcsetWebp = $srcsetWebp | append (printf "%s %dw" $resizedWebp.RelPermalink $bp) -}}
+      {{- end -}}
+    {{- end -}}
+    {{/* Add the target width itself if not already covered */}}
+    {{- $srcset = $srcset | append (printf "%s %dw" $fallback.RelPermalink $tw) -}}
+    {{- $srcsetWebp = $srcsetWebp | append (printf "%s %dw" $webp.RelPermalink $tw) -}}
+  {{- end -}}
+
+  <picture>
+    {{- if gt (len $srcsetWebp) 0 }}
+    <source
+      type="image/webp"
+      srcset="{{ delimit $srcsetWebp ", " }}"
+      sizes="(max-width: 768px) 100vw, {{ $tw }}px"
+    >
+    {{- else }}
+    <source type="image/webp" srcset="{{ $webp.RelPermalink }}">
+    {{- end }}
+    <img
+      src="{{ $fallback.RelPermalink }}"
+      alt="{{ $alt }}"
+      {{- with $class }} class="{{ . }}"{{ end }}
+      loading="{{ $loading }}"
+      width="{{ $fallback.Width }}"
+      height="{{ $fallback.Height }}"
+      {{- if gt (len $srcset) 0 }}
+      srcset="{{ delimit $srcset ", " }}"
+      sizes="(max-width: 768px) 100vw, {{ $tw }}px"
+      {{- end }}
+    >
+  </picture>
+
+{{- else -}}
+
+  {{/* 3. Fallback: static file — plain <img> */}}
+  <img
+    src="{{ $src | relURL }}"
+    alt="{{ $alt }}"
+    {{- with $class }} class="{{ . }}"{{ end }}
+    loading="{{ $loading }}"
+    {{- if gt $width 0 }} width="{{ $width }}"{{ end }}
+    {{- if gt $height 0 }} height="{{ $height }}"{{ end }}
+  >
+
+{{- end -}}

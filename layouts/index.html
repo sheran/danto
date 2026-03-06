@@ -107,7 +107,7 @@
                      class="author-avatar-link block w-20 h-20 lg:w-32 lg:h-32 rounded-full border-4 overflow-hidden relative hover:-translate-y-1 transition-base{{ if gt $index 0 }} -ml-7 lg:-ml-12{{ end }}"
                      style="z-index: {{ sub 20 $index }}; border-color: var(--border-alt);"
                      title="{{ $authorPage.Title }}">
-                    {{ partial "image" (dict "src" $avatar "alt" $authorPage.Title "class" "w-full h-full object-cover" "loading" "lazy" "width" 128 "height" 128) }}
+                    {{ partial "image" (dict "src" $avatar "alt" $authorPage.Title "page" $authorPage "class" "w-full h-full object-cover" "loading" "lazy" "width" 128 "height" 128) }}
                   </a>
                   {{ $index = add $index 1 }}
                 {{ end }}

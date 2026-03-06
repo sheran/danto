@@ -12,7 +12,7 @@
 <article class="h-full flex flex-col">
   {{/* Image section */}}
   <a href="{{ $page.RelPermalink }}" class="article-image block rounded-[22px] hover:-translate-y-1 transition-base relative">
-    {{ partial "image" (dict "src" $image "alt" $page.Title "class" "w-full h-full object-cover" "loading" "lazy" "width" 800 "height" 600) }}
+    {{ partial "image" (dict "src" $image "alt" $page.Title "page" $page "class" "w-full h-full object-cover" "loading" "lazy" "width" 800 "height" 600) }}
     {{ if $page.Params.video }}
     <div class="absolute inset-0 flex items-center justify-center">
       <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
