@@ -13,21 +13,21 @@
         {{ range site.Menus.main }}
           {{ if .HasChildren }}
             <div class="nav-dropdown relative">
-              <button class="nav-link flex items-center gap-1 px-3 py-2 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base"
+              <button class="nav-link flex items-center gap-1 px-3 py-2 text-base font-medium text-theme-heading hover:text-theme-primary transition-base"
                       aria-expanded="false" aria-haspopup="true">
                 {{ .Name }}
                 <i class="fa-solid fa-chevron-down text-[10px]" aria-hidden="true"></i>
               </button>
               <div class="nav-dropdown-menu absolute top-full left-0 mt-1 min-w-[160px] bg-theme border border-theme rounded-radius-small shadow-lg opacity-0 invisible transition-base z-50" role="menu">
                 {{ range .Children }}
-                  <a href="{{ .URL }}" class="block px-4 py-2 text-sm text-theme-heading hover:bg-theme-alt hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
+                  <a href="{{ .URL }}" class="block px-4 py-2 text-base text-theme-heading hover:bg-theme-alt hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
                     {{ .Name }}
                   </a>
                 {{ end }}
               </div>
             </div>
           {{ else }}
-            <a href="{{ .URL }}" class="nav-link px-3 py-2 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
+            <a href="{{ .URL }}" class="nav-link px-3 py-2 text-base font-medium text-theme-heading hover:text-theme-primary transition-base{{ if $.IsMenuCurrent "main" . }} text-theme-primary{{ end }}">
               {{ .Name }}
             </a>
           {{ end }}
@@ -37,7 +37,7 @@
       <!-- Right side: Search + CTA + Hamburger -->
       <div class="flex items-center gap-3 ml-auto">
         <!-- Search Button -->
-        <button class="search-open flex items-center gap-2 px-3 py-2 text-sm font-medium text-theme-heading hover:text-theme-primary transition-base" aria-label="Open search">
+        <button class="search-open flex items-center gap-2 px-3 py-2 text-base font-medium text-theme-heading hover:text-theme-primary transition-base" aria-label="Open search">
           <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
           <span class="hidden sm:inline">Search</span>
         </button>
