@@ -46,3 +46,33 @@ cta_url = '/contact/'
   tag = 'sport'
   title = 'Sport'
   count = 3
+
+[[share_platforms]]
+  platform = 'twitter'
+  enabled = true
+  icon = 'fa-brands fa-x-twitter'
+
+[[share_platforms]]
+  platform = 'facebook'
+  enabled = true
+  icon = 'fa-brands fa-facebook'
+
+[[share_platforms]]
+  platform = 'pinterest'
+  enabled = true
+  icon = 'fa-brands fa-pinterest'
+
+[[share_platforms]]
+  platform = 'linkedin'
+  enabled = false
+  icon = 'fa-brands fa-linkedin'
+
+[[share_platforms]]
+  platform = 'reddit'
+  enabled = false
+  icon = 'fa-brands fa-reddit'
+
+[[share_platforms]]
+  platform = 'email'
+  enabled = false
+  icon = 'fa-solid fa-envelope'
