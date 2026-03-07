@@ -1,11 +1,9 @@
 {{ define "main" }}
-<section class="py-16">
-  <div class="container mx-auto px-4">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-theme-heading font-heading text-4xl lg:text-5xl font-bold mb-8">{{ .Title }}</h1>
-      <div class="post-content">
-        {{ .Content }}
-      </div>
+<section class="py-20 px-4">
+  <div class="max-w-7xl mx-auto pb-8 border-b border-theme">
+    <h1 class="text-theme-heading font-heading text-4xl lg:text-5xl font-bold mb-8">{{ .Title }}</h1>
+    <div class="post-content">
+      {{ .Content }}
     </div>
   </div>
 </section>
