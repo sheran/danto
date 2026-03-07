@@ -23,8 +23,7 @@
   {{ block "head" . }}{{ end }}
 </head>
 <body class="bg-theme text-theme">
-  <a href="#main-content" class="skip-link">Skip to content</a>
-  {{ partial "header.html" . }}
+{{ partial "header.html" . }}
   {{ partial "search.html" . }}
   <main id="main-content" class="content" aria-label="Content">
     {{ block "main" . }}{{ end }}
