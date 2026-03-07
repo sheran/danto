@@ -14,7 +14,7 @@
   <!-- Featured Posts -->
   {{ $featured := first 5 (where site.RegularPages ".Params.featured" true) }}
   {{ if $featured }}
-  <section class="mt-12 mb-16 px-4 animate">
+  <section class="mb-16 px-4 animate">
     <div class="max-w-7xl mx-auto">
       <div class="featured-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {{/* Left column: posts 0 and 1 */}}
@@ -61,7 +61,7 @@
     {{ $count := .count | default 3 }}
     {{ $tagPage := site.GetPage (printf "/tags/%s" $tagSlug) }}
     {{ with $tagPage }}
-    <section class="mt-12 mb-16 px-4 animate">
+    <section class="mb-16 px-4 animate">
       <div class="max-w-7xl mx-auto pb-8 border-b border-theme">
         {{/* Section header */}}
         <header class="flex items-center justify-between mb-8">
@@ -87,7 +87,7 @@
   <!-- Meet Our Authors -->
   {{ $authors := site.Taxonomies.authors }}
   {{ if $authors }}
-  <section class="mt-12 mb-16 px-4 animate">
+  <section class="mb-16 px-4 animate">
     <div class="max-w-7xl mx-auto">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
         {{/* Title */}}
