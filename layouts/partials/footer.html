@@ -7,8 +7,8 @@
       <!-- Column 1: Site Info -->
       <div>
         <a href="{{ "/" | relURL }}" class="inline-block mb-4" aria-label="{{ site.Title }} home">
-          {{ partial "image" (dict "src" site.Params.logo "alt" site.Title "class" "logo-light h-8" "loading" "lazy" "width" 120 "height" 32) }}
-          {{ partial "image" (dict "src" site.Params.logo_dark "alt" site.Title "class" "logo-dark h-8" "loading" "lazy" "width" 120 "height" 32) }}
+          {{ partial "image" (dict "src" site.Params.logo "alt" site.Title "class" "logo-light h-8" "loading" "lazy") }}
+          {{ partial "image" (dict "src" site.Params.logo_dark "alt" site.Title "class" "logo-dark h-8" "loading" "lazy") }}
         </a>
         {{ with site.Params.description }}
           <p class="text-theme-alt text-sm leading-relaxed mb-5">{{ . }}</p>
