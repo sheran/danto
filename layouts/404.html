@@ -1,10 +1,12 @@
 {{ define "main" }}
-  <section class="text-center py-20 px-4">
-    <h1 class="text-[80px] sm:text-[100px] md:text-[160px] font-serif font-bold text-theme-heading leading-none mb-4">404</h1>
-    <p class="text-theme-alt text-lg md:text-xl mb-8">Oops! The page you're looking for doesn't exist.</p>
-    <a href="{{ "/" | relURL }}" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--btn-bg)] text-[var(--btn-color)] hover:bg-[var(--btn-hover)] font-semibold transition-base">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      Back to Home
-    </a>
+  <section class="py-20 px-4">
+    <div class="max-w-7xl mx-auto text-center pb-8 border-b border-theme">
+      <h1 class="text-[80px] sm:text-[100px] md:text-[160px] font-serif font-bold text-theme-heading leading-none mb-4">404</h1>
+      <p class="text-theme-alt text-lg md:text-xl mb-8">Oops! The page you're looking for doesn't exist.</p>
+      <a href="{{ "/" | relURL }}" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--btn-bg)] text-[var(--btn-color)] hover:bg-[var(--btn-hover)] font-semibold transition-base">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        Back to Home
+      </a>
+    </div>
   </section>
 {{ end }}
