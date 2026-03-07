@@ -1,17 +1,16 @@
 {{ with site.Params.share_platforms }}
-  {{ $shareURLs := dict
-    "twitter" (printf "https://twitter.com/intent/tweet?text=%s&url=%s" ($.Title | urlquery) ($.Permalink | urlquery))
-    "facebook" (printf "https://www.facebook.com/sharer/sharer.php?u=%s" ($.Permalink | urlquery))
-    "pinterest" (printf "https://pinterest.com/pin/create/button/?url=%s&media=%s&description=%s" ($.Permalink | urlquery) ($.Params.image | absURL | urlquery) ($.Title | urlquery))
-    "linkedin" (printf "https://www.linkedin.com/sharing/share-offsite/?url=%s" ($.Permalink | urlquery))
-    "reddit" (printf "https://www.reddit.com/submit?url=%s&title=%s" ($.Permalink | urlquery) ($.Title | urlquery))
-    "email" (printf "mailto:?subject=%s&body=%s" ($.Title | urlquery) ($.Permalink | urlquery))
-  }}
-  <nav aria-label="Share this post" class="flex items-center gap-4 pt-6 mt-8" style="border-top: 1px solid var(--border);">
-    <span class="font-medium text-theme-heading">Share:</span>
-    <div class="flex gap-3">
-      {{ range . }}
-        {{ if .enabled }}
+  {{ $enabled := where . "enabled" true }}
+  {{ with $enabled }}
+    {{ $shareURLs := dict
+      "twitter" (printf "https://twitter.com/intent/tweet?text=%s&url=%s" ($.Title | urlquery) ($.Permalink | urlquery))
+      "facebook" (printf "https://www.facebook.com/sharer/sharer.php?u=%s" ($.Permalink | urlquery))
+      "pinterest" (printf "https://pinterest.com/pin/create/button/?url=%s&media=%s&description=%s" ($.Permalink | urlquery) ($.Params.image | absURL | urlquery) ($.Title | urlquery))
+      "email" (printf "mailto:?subject=%s&body=%s" ($.Title | urlquery) ($.Permalink | urlquery))
+    }}
+    <nav aria-label="Share this post" class="flex items-center gap-4 pt-6 mt-8" style="border-top: 1px solid var(--border);">
+      <span class="font-medium text-theme-heading">Share:</span>
+      <div class="flex gap-3">
+        {{ range . }}
           {{ $entry := . }}
           {{ $url := index $shareURLs .platform }}
           {{ with $url }}
@@ -26,7 +25,7 @@
             {{ end }}
           {{ end }}
         {{ end }}
-      {{ end }}
-    </div>
-  </nav>
+      </div>
+    </nav>
+  {{ end }}
 {{ end }}
