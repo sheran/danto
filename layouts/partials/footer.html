@@ -1,8 +1,8 @@
-<footer class="pb-0">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<footer class="pb-0 px-4">
 
     <!-- Three-column layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 border-t border-b border-theme pt-20 pb-16">
+    <div class="max-w-7xl mx-auto pt-20 pb-16 border-t border-b border-theme">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
       <!-- Column 1: Site Info -->
       <div>
@@ -86,8 +86,10 @@
       </div>
 
     </div>
+    </div>
 
     <!-- Footer Info Bar -->
+    <div class="max-w-7xl mx-auto">
     <div class="py-5 flex flex-wrap items-center justify-between gap-4">
       <p class="text-theme-alt text-sm">&copy; {{ now.Year }} {{ site.Title }}. All rights reserved.</p>
 
@@ -111,8 +113,7 @@
         </div>
       </div>
     </div>
-
-  </div>
+    </div>
 </footer>
 
 <script>
